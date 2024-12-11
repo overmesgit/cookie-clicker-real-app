@@ -4,3 +4,5 @@ TODO: mount file system
 TODO: add user name
 TODO: leader board
 TODO: init svn
+TODO: levels count may go bellow 0 >.<
+

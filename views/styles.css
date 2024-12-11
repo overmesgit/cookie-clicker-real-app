@@ -11,6 +11,10 @@ body {
     border-radius: 10px;
 }
 
+#click-button {
+    touch-action: manipulation;
+}
+
 #click-button img {
     border-radius: 200px;
 }
@@ -32,8 +36,7 @@ body {
     background-color: cornsilk;
     cursor: pointer;
     user-select: none;
-
-
+    touch-action: manipulation;
 }
 
 .level:hover {

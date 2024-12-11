@@ -21,14 +21,6 @@ var upgrades = []Upgrade{
 		description: "Harness quantum uncertainty for more efficient clicking",
 		tag:         "quantum-tunneling",
 	},
-
-	{
-		name:        "Quark Resonance",
-		baseRate:    5,
-		description: "Synchronize clicks with quark-antiquark oscillations",
-		tag:         "quark-resonance",
-	},
-
 	{
 		name:        "Hadron Accelerator",
 		baseRate:    10,
