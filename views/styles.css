@@ -1,0 +1,50 @@
+body {
+    background: aliceblue;
+}
+
+.column {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+#click-button img {
+    border-radius: 200px;
+}
+
+#click-button img:hover {
+    background: beige;
+}
+
+#cookies {
+    text-align: center;
+    font-size: 56px
+}
+
+.level {
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: cornsilk;
+    cursor: pointer;
+    user-select: none;
+
+
+}
+
+.level:hover {
+    background-color: #c3bd76;
+}
+
+.level.disabled {
+    background-color: darkgray;
+}
+
+.level.disabled:hover {
+    background-color: darkgray;
+}
+

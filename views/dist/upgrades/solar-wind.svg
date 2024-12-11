@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="16" fill="#F1C40F"/>
+  <path d="M66,50 Q76,45 86,50" stroke="#E74C3C" fill="none" stroke-width="4">
+    <animate attributeName="d" values="M66,50 Q76,45 86,50;M66,50 Q76,55 86,50;M66,50 Q76,45 86,50" dur="1s" repeatCount="indefinite"/>
+  </path>
+  <path d="M66,40 Q76,45 86,40" stroke="#E74C3C" fill="none" stroke-width="4">
+    <animate attributeName="d" values="M66,40 Q76,45 86,40;M66,40 Q76,35 86,40;M66,40 Q76,45 86,40" dur="1s" repeatCount="indefinite" begin="0.3s"/>
+  </path>
+</svg>

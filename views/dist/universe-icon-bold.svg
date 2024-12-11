@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="universeGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="70%" style="stop-color:#533483"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Main circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#universeGradient)"/>
+  
+  <!-- Bolder orbit -->
+  <circle cx="50" cy="50" r="35" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="5"/>
+  
+  <!-- Larger particles -->
+  <circle cx="85" cy="50" r="8" fill="#fff"/>
+  <circle cx="50" cy="15" r="8" fill="#fff"/>
+  <circle cx="25" cy="75" r="8" fill="#fff"/>
+  
+  <!-- Thicker energy rays -->
+  <path d="M50,50 L80,80" stroke="#fff" stroke-width="6" opacity="0.7"/>
+  <path d="M50,50 L20,80" stroke="#fff" stroke-width="6" opacity="0.7"/>
+</svg>

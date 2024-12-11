@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="10" fill="#E67E22"/>
+  <circle cx="50" cy="50" r="20" fill="none" stroke="#E67E22" stroke-width="2">
+    <animate attributeName="r" values="20;30;20" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="50" r="30" fill="none" stroke="#E67E22" stroke-width="2">
+    <animate attributeName="r" values="30;40;30" dur="1.5s" repeatCount="indefinite" begin="0.2s"/>
+  </circle>
+</svg>

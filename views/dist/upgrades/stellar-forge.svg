@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="24" fill="#F39C12">
+    <animate attributeName="fill" values="#F39C12;#E74C3C;#F39C12" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <path d="M26,50 L74,50 M50,26 L50,74" stroke="#FFF" stroke-width="4">
+    <animate attributeName="stroke-width" values="4;6;4" dur="1s" repeatCount="indefinite"/>
+  </path>
+</svg>
