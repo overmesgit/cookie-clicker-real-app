@@ -2,6 +2,7 @@ import {html} from 'htm/preact';
 import {useContext, useEffect} from 'preact/hooks';
 import {Pocket} from "/pocket.js";
 import {formatNumber} from "./format.js"
+import {useComputed, useSignal} from '@preact/signals';
 
 
 function Clicker(props) {
@@ -35,6 +36,66 @@ function Counter({count}) {
         <div id="cookies">${formatNumber(count)}</div>`
 }
 
+function Leaderboard() {
+    const userStats = useSignal(new Map());
+    const userIDtoName = useSignal(new Map());
+    const total = useComputed(() => {
+        let value = userStats.value;
+    });
+
+    async function updateUserNames() {
+        const allUsers = await pb.collection('users').getFullList();
+        const res = new Map();
+        allUsers.forEach((user) => {
+            res.set(user.id, user.name)
+        })
+        userIDtoName.value = res;
+    }
+
+    useEffect(async () => {
+        await updateUserNames();
+    }, []);
+
+    const pb = useContext(Pocket);
+    useEffect(async () => {
+        pb.collection('counter').subscribe('*', function (e) {
+            if (e.record.user == pb.authStore.model.id) {
+                return
+            }
+            if (!userIDtoName.value.has(e.record.user)) {
+                updateUserNames();
+                return;
+            }
+            const newMap = new Map(userStats.value);
+            newMap.set(e.record.user, e.record.count);
+            userStats.value = newMap;
+        });
+
+    }, []);
+
+    return html`
+        <div style="margin: 20px">
+            <h2>Leaderboard</h2>
+            <table class="pure-table pure-table-striped pure-table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                ${Array.from(userStats.value.keys().map((k) => {
+                    return html`
+                        <tr>
+                            <td>${userIDtoName.value.get(k)}</td>
+                            <td>${userStats.value.get(k)}</td>
+                        </tr>`
+                }))}
+                </tbody>
+            </table>
+        </div>`
+}
+
 export function ClickerStats({count}) {
     return html`
         <div class="pure-u-1-3">
@@ -42,6 +103,7 @@ export function ClickerStats({count}) {
                 <h2 style="text-align: center; margin-top: 0">Particles Clicker</h2>
                 <${Clicker}/>
                 <${Counter} count=${count}/>
+                    <${Leaderboard}/>
             </div>
         </div>`
 }

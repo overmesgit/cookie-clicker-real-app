@@ -95,6 +95,7 @@ function SignUp({setUser}) {
             await pb.send('/signup', {
                 method: "POST", body: {
                     "email": user,
+                    "name": formData.get('name'),
                     "password": formData.get('password'),
                     "passwordConfirm": formData.get('passwordConfirm'),
                 }
@@ -114,6 +115,11 @@ function SignUp({setUser}) {
             ${errorContent}
             <form class="pure-form pure-form-aligned" onSubmit=${handleSubmit}>
                 <fieldset>
+                    <div class="pure-control-group">
+                        <label for="name">Username</label>
+                        <input name="name" type="text" id="name"
+                               placeholder="Username"/>
+                    </div>
                     <div class="pure-control-group">
                         <label for="aligned-email">Email Address</label>
                         <input name="email" type="email" id="aligned-email"

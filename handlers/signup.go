@@ -7,6 +7,7 @@ import (
 )
 
 type SignUpRequest struct {
+	Name            string `json:"Name"`
 	Email           string `json:"email"`
 	Password        string `json:"password"`
 	PasswordConfirm string `json:"passwordConfirm"`
@@ -45,6 +46,7 @@ func HandleSignUp(app *pocketbase.PocketBase) func(e *core.RequestEvent) error {
 		}
 
 		newUser := core.NewRecord(collection)
+		newUser.Set("name", req.Name)
 		newUser.SetEmail(req.Email)
 		newUser.SetPassword(req.Password)
 
