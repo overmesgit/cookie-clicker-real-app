@@ -19,25 +19,11 @@ function Clicker() {
 }
 
 function Counter({count}) {
-
-    const pb = useContext(Pocket);
-    useEffect(async () => {
-        const userCounters = await pb.collection('counter').getList(1, 50, {
-            filter: `user = "${pb.authStore.model.id}"`,
-        });
-        console.log(userCounters);
-        const initialCounter = userCounters.items[0];
-        count.value = initialCounter.count;
-        pb.collection('counter').subscribe(initialCounter.id, function (e) {
-            count.value = e.record.count;
-        });
-    }, []);
-
     return html`
         <div id="cookies">${formatNumber(count)}</div>`
 }
 
-function Leaderboard() {
+function Leaderboard({count}) {
     const pb = useContext(Pocket);
     const userStats = useSignal(new Map());
     const sortedStats = useComputed(() => {
@@ -65,6 +51,7 @@ function Leaderboard() {
         allCounter.forEach((conter) => {
             res.set(conter.user, conter.count)
         })
+        count.value = res.get(pb.authStore.model.id);
         userStats.value = res;
     }, []);
 
@@ -78,6 +65,7 @@ function Leaderboard() {
             const newMap = new Map(userStats.value);
             newMap.set(e.record.user, e.record.count);
             userStats.value = newMap;
+            count.value = newMap.get(pb.authStore.model.id);
         });
 
     }, []);
@@ -113,7 +101,7 @@ export function ClickerStats({count}) {
                 <h2 style="text-align: center; margin-top: 0">Particles Clicker</h2>
                 <${Clicker}/>
                 <${Counter} count=${count}/>
-                    <${Leaderboard}/>
+                    <${Leaderboard} count=${count}/>
             </div>
         </div>`
 }
