@@ -5,7 +5,7 @@ import {formatNumber} from "./format.js"
 import {useComputed, useSignal} from '@preact/signals';
 
 
-function Clicker(props) {
+function Clicker() {
     const pb = useContext(Pocket);
 
     async function sendMessage() {
@@ -25,6 +25,7 @@ function Counter({count}) {
         const userCounters = await pb.collection('counter').getList(1, 50, {
             filter: `user = "${pb.authStore.model.id}"`,
         });
+        console.log(userCounters);
         const initialCounter = userCounters.items[0];
         count.value = initialCounter.count;
         pb.collection('counter').subscribe(initialCounter.id, function (e) {
@@ -41,7 +42,7 @@ function Leaderboard() {
     const userStats = useSignal(new Map());
     const sortedStats = useComputed(() => {
         const data = Array.from(userStats.value.keys().map((k) => {
-            return [userIDtoName.value.get(k), userStats.value.get(k)]
+            return [userIDtoName.value.get(k), userStats.value.get(k), k]
         }))
         data.sort((a, b) => b[1] - a[1])
         return data;
@@ -62,9 +63,7 @@ function Leaderboard() {
         const allCounter = await pb.collection('counter').getFullList();
         const res = new Map();
         allCounter.forEach((conter) => {
-            if (conter.user != pb.authStore.model.id) {
-                res.set(conter.user, conter.count)
-            }
+            res.set(conter.user, conter.count)
         })
         userStats.value = res;
     }, []);
@@ -72,9 +71,6 @@ function Leaderboard() {
 
     useEffect(async () => {
         pb.collection('counter').subscribe('*', function (e) {
-            if (e.record.user == pb.authStore.model.id) {
-                return
-            }
             if (!userIDtoName.value.has(e.record.user)) {
                 updateUserNames();
                 return;
@@ -97,11 +93,12 @@ function Leaderboard() {
                 </tr>
                 </thead>
                 <tbody>
-                ${sortedStats.value.map(([name, value]) => {
+                ${sortedStats.value.map(([name, value, userID]) => {
+                    const font = userID === pb.authStore.model.id ? 'bold' : 'normal';
                     return html`
-                        <tr>
+                        <tr style="font-weight: ${font}">
                             <td>${name}</td>
-                            <td>${value}</td>
+                            <td>${formatNumber(value)}</td>
                         </tr>`
                 })}
                 </tbody>
