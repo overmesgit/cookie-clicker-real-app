@@ -37,11 +37,16 @@ function Counter({count}) {
 }
 
 function Leaderboard() {
+    const pb = useContext(Pocket);
     const userStats = useSignal(new Map());
+    const sortedStats = useComputed(() => {
+        const data = Array.from(userStats.value.keys().map((k) => {
+            return [userIDtoName.value.get(k), userStats.value.get(k)]
+        }))
+        data.sort((a, b) => b[1] - a[1])
+        return data;
+    })
     const userIDtoName = useSignal(new Map());
-    const total = useComputed(() => {
-        let value = userStats.value;
-    });
 
     async function updateUserNames() {
         const allUsers = await pb.collection('users').getFullList();
@@ -54,9 +59,17 @@ function Leaderboard() {
 
     useEffect(async () => {
         await updateUserNames();
+        const allCounter = await pb.collection('counter').getFullList();
+        const res = new Map();
+        allCounter.forEach((conter) => {
+            if (conter.user != pb.authStore.model.id) {
+                res.set(conter.user, conter.count)
+            }
+        })
+        userStats.value = res;
     }, []);
 
-    const pb = useContext(Pocket);
+
     useEffect(async () => {
         pb.collection('counter').subscribe('*', function (e) {
             if (e.record.user == pb.authStore.model.id) {
@@ -78,19 +91,19 @@ function Leaderboard() {
             <h2>Leaderboard</h2>
             <table class="pure-table pure-table-striped pure-table-hover">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
                 </thead>
                 <tbody>
-                ${Array.from(userStats.value.keys().map((k) => {
+                ${sortedStats.value.map(([name, value]) => {
                     return html`
                         <tr>
-                            <td>${userIDtoName.value.get(k)}</td>
-                            <td>${userStats.value.get(k)}</td>
+                            <td>${name}</td>
+                            <td>${value}</td>
                         </tr>`
-                }))}
+                })}
                 </tbody>
             </table>
         </div>`
